@@ -29,8 +29,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void login(View view) {
-        EditText email = findViewById(R.id.email);
-        EditText password = findViewById(R.id.password);
+        EditText email = (EditText) findViewById(R.id.email);
+        EditText password = (EditText) findViewById(R.id.password);
 
         mAuth.signInWithEmailAndPassword(email.getText().toString(), password.getText().toString())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
