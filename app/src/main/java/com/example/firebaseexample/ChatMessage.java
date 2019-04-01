@@ -2,17 +2,15 @@ package com.example.firebaseexample;
 
 import java.util.Date;
 
-public class ChatMessage {
+public class ChatMessage implements Comparable<ChatMessage> {
 
     private String messageText;
     private String messageUser;
-    private long messageTime;
+    private Long messageTime;
 
     public ChatMessage(String messageText, String messageUser) {
         this.messageText = messageText;
         this.messageUser = messageUser;
-
-        // Initialize to current time
         messageTime = new Date().getTime();
     }
 
@@ -35,11 +33,16 @@ public class ChatMessage {
         this.messageUser = messageUser;
     }
 
-    public long getMessageTime() {
+    public Long getMessageTime() {
         return messageTime;
     }
 
     public void setMessageTime(long messageTime) {
         this.messageTime = messageTime;
+    }
+
+    @Override
+    public int compareTo(ChatMessage other) {
+        return this.getMessageTime().compareTo(other.getMessageTime());
     }
 }

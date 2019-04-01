@@ -6,10 +6,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.example.firebaseexample.adapter.ChatMessageAdapter;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -28,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseUser currentUser;
 
     private EditText editTxt;
-    private ArrayAdapter<String> chatMessagesViewAdapter;
-    private ArrayList<String> messages = new ArrayList<>();
+    private ChatMessageAdapter chatMessagesViewAdapter;
+    private ArrayList<ChatMessage> messages = new ArrayList<>();
 
 
     @Override
@@ -44,8 +44,10 @@ public class MainActivity extends AppCompatActivity {
 
         editTxt = findViewById(R.id.message_input);
         ListView listView = findViewById(R.id.message_list);
+        listView.setScrollingCacheEnabled(false);
 
-        chatMessagesViewAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, messages);
+
+        chatMessagesViewAdapter = new ChatMessageAdapter(getApplicationContext(), messages);
         listView.setAdapter(chatMessagesViewAdapter);
 
         database.getReference().addChildEventListener(getChatMessageListener());
@@ -63,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
     public void sendMessage(View view) {
         String message = ((EditText) findViewById(R.id.message_input)).getText().toString();
         DatabaseReference myRef = database.getReference(UUID.randomUUID().toString());
-        myRef.setValue(new ChatMessage(message, currentUser.getEmail()));
+        myRef.setValue(new ChatMessage(message, currentUser.getDisplayName()));
         editTxt.getText().clear();
     }
 
@@ -79,10 +81,8 @@ public class MainActivity extends AppCompatActivity {
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
 
                 ChatMessage message = dataSnapshot.getValue(ChatMessage.class);
-
-                messages.add(message.getMessageUser() + ": " + message.getMessageText());
+                messages.add(message);
                 chatMessagesViewAdapter.notifyDataSetChanged();
-
             }
 
             @Override
