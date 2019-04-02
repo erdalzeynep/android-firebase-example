@@ -10,9 +10,11 @@
         android:id="@+id/signup_button"
         android:layout_width="175dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="48dp"
+        android:layout_marginBottom="108dp"
+        android:background="@android:color/holo_blue_dark"
         android:onClick="goToSignUp"
         android:text="Sign Up"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -26,9 +28,11 @@
         android:layout_marginTop="204dp"
         android:layout_marginEnd="99dp"
         android:layout_marginRight="99dp"
+        android:backgroundTint="@android:color/holo_blue_dark"
         android:ems="10"
         android:hint="email"
         android:inputType="textEmailAddress"
+        android:textColor="@color/colorPrimaryDark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -42,6 +46,8 @@
         android:ems="10"
         android:hint="password"
         android:inputType="textPassword"
+        android:backgroundTint="@android:color/holo_blue_dark"
+        android:textColor="@color/colorPrimaryDark"
         app:layout_constraintBottom_toTopOf="@+id/login_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -52,11 +58,25 @@
         android:id="@+id/login_button"
         android:layout_width="175dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="120dp"
+        android:layout_marginBottom="188dp"
+        android:background="@android:color/holo_blue_dark"
+        android:onClick="login"
         android:text="Login"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/email"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:onClick="login"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/ic_launcher_foreground" />
 
 </android.support.constraint.ConstraintLayout>

@@ -14,7 +14,9 @@
         android:text="Sign Up"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@android:color/holo_blue_dark"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"/>/>
 
     <EditText
         android:id="@+id/display_name"
@@ -27,11 +29,13 @@
         android:layout_marginRight="99dp"
         android:ems="10"
         android:hint="display name"
+        android:textColor="@color/colorPrimaryDark"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:backgroundTint="@android:color/holo_blue_dark"/>
 
     <EditText
         android:id="@+id/email"
@@ -47,7 +51,9 @@
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:backgroundTint="@android:color/holo_blue_dark"
+        android:textColor="@color/colorPrimaryDark"/>
 
     <EditText
         android:id="@+id/password"
@@ -62,6 +68,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/email"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        android:backgroundTint="@android:color/holo_blue_dark"
+        android:textColor="@color/colorPrimaryDark"/>
 
 </android.support.constraint.ConstraintLayout>
