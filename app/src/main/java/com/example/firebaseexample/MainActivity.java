@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.example.firebaseexample.adapter.ChatMessageAdapter;
+import com.example.firebaseexample.model.ChatMessage;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         chatMessagesViewAdapter = new ChatMessageAdapter(getApplicationContext(), messages);
         listView.setAdapter(chatMessagesViewAdapter);
 
-        database.getReference().addChildEventListener(getChatMessageListener());
+        database.getReference("messages").addChildEventListener(getChatMessageListener());
     }
 
     @Override
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void sendMessage(View view) {
         String message = ((EditText) findViewById(R.id.message_input)).getText().toString();
-        DatabaseReference myRef = database.getReference(UUID.randomUUID().toString());
+        DatabaseReference myRef = database.getReference("messages").child(UUID.randomUUID().toString());
         myRef.setValue(new ChatMessage(message, currentUser.getDisplayName()));
         editTxt.getText().clear();
     }
@@ -101,5 +102,10 @@ public class MainActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         };
+    }
+
+    public void goToChat(View view) {
+        startActivity(new Intent(this, ChatUserListActivity.class));
+
     }
 }

@@ -9,36 +9,33 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.example.firebaseexample.model.ChatMessage;
 import com.example.firebaseexample.R;
+import com.example.firebaseexample.model.User;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public class ChatMessageAdapter extends ArrayAdapter<ChatMessage> {
-
+public class ChatUserAdapter  extends ArrayAdapter<User> {
     private Context mContext;
-    private final List<ChatMessage> chatMessages;
+    private final List<User> users;
 
-    public ChatMessageAdapter(Context context, ArrayList<ChatMessage> list) {
-        super(context, 0, list);
+    public ChatUserAdapter(Context context, ArrayList<User> list) {
+        super(context ,0, list );
         mContext = context;
-        chatMessages = list;
+        users = list;
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        Collections.sort(chatMessages);
         View listItem = convertView;
         if (listItem == null)
-            listItem = LayoutInflater.from(mContext).inflate(R.layout.chat_message, parent, false);
+            listItem = LayoutInflater.from(mContext).inflate(R.layout.user, parent, false);
 
-        ChatMessage message = chatMessages.get(position);
+       User user = users.get(position);
 
-        TextView messageText = listItem.findViewById(R.id.message);
-        messageText.setText(message.getMessageUser() + ": " + message.getMessageText());
+        TextView userText = listItem.findViewById(R.id.user);
+        userText.setText(user.getDisplayName());
 
         return listItem;
     }

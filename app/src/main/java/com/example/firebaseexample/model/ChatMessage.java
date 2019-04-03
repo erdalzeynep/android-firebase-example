@@ -1,4 +1,4 @@
-package com.example.firebaseexample;
+package com.example.firebaseexample.model;
 
 import java.util.Date;
 
