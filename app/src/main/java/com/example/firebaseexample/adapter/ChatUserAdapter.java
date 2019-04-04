@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.TextView;
+import android.widget.Button;
 
 import com.example.firebaseexample.R;
 import com.example.firebaseexample.model.User;
@@ -34,8 +34,9 @@ public class ChatUserAdapter  extends ArrayAdapter<User> {
 
        User user = users.get(position);
 
-        TextView userText = listItem.findViewById(R.id.user);
+        Button userText = listItem.findViewById(R.id.user);
         userText.setText(user.getDisplayName());
+        userText.setTag(user.getUid());
 
         return listItem;
     }

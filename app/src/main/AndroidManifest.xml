@@ -12,8 +12,12 @@
         <activity
             android:name=".ChatUserListActivity"
             android:label="@string/title_activity_chat_user_list"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+           ></activity>
         <activity android:name=".SignUpActivity" />
+        <activity
+            android:name=".ChatGroupListActivity"
+            android:label="@string/title_activity_chat_group_list"
+           ></activity>
         <activity android:name=".LoginActivity" />
         <activity
             android:name=".MainActivity"

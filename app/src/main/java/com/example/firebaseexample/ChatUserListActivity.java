@@ -1,25 +1,28 @@
 package com.example.firebaseexample;
 
+import android.app.ActionBar;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
-import com.example.firebaseexample.adapter.ChatMessageAdapter;
 import com.example.firebaseexample.adapter.ChatUserAdapter;
-import com.example.firebaseexample.model.ChatMessage;
+import com.example.firebaseexample.model.ChatGroup;
 import com.example.firebaseexample.model.User;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 public class ChatUserListActivity extends AppCompatActivity {
     private ChatUserAdapter chatUserAdapter;
@@ -29,7 +32,7 @@ public class ChatUserListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.content_chat_user_list);
+        setContentView(R.layout.chat_user_list);
 
         database = FirebaseDatabase.getInstance();
         ListView listView = findViewById(R.id.list_user);

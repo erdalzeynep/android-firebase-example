@@ -8,7 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.example.firebaseexample.adapter.ChatGroupAdapter;
 import com.example.firebaseexample.adapter.ChatMessageAdapter;
 import com.example.firebaseexample.model.ChatMessage;
 import com.google.firebase.FirebaseApp;
@@ -21,6 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,11 +33,20 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText editTxt;
     private ChatMessageAdapter chatMessagesViewAdapter;
+
     private ArrayList<ChatMessage> messages = new ArrayList<>();
+    String groupID;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        Intent intent = getIntent();
+        groupID = intent.getStringExtra("group_id");
+        if (groupID == null) {
+            groupID = "main";
+        }
+        String groupName = intent.getStringExtra("group_name");
 
         super.onCreate(savedInstanceState);
         FirebaseApp.initializeApp(MainActivity.this);
@@ -42,6 +54,13 @@ public class MainActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
 
         setContentView(R.layout.activity_main);
+
+        TextView displayGroupName = findViewById(R.id.group_name_text);
+        if (groupName != null) {
+            displayGroupName.setText(groupName.toUpperCase());
+        } else {
+            displayGroupName.setText("");
+        }
 
         editTxt = findViewById(R.id.message_input);
         ListView listView = findViewById(R.id.message_list);
@@ -51,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         chatMessagesViewAdapter = new ChatMessageAdapter(getApplicationContext(), messages);
         listView.setAdapter(chatMessagesViewAdapter);
 
-        database.getReference("messages").addChildEventListener(getChatMessageListener());
+        database.getReference("chat_groups").child(groupID).child("messages").addChildEventListener(getChatMessageListener());
     }
 
     @Override
@@ -65,8 +84,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void sendMessage(View view) {
         String message = ((EditText) findViewById(R.id.message_input)).getText().toString();
-        DatabaseReference myRef = database.getReference("messages").child(UUID.randomUUID().toString());
-        myRef.setValue(new ChatMessage(message, currentUser.getDisplayName()));
+        DatabaseReference myRef = database.getReference("chat_groups");
+        String messageID = UUID.randomUUID().toString();
+        myRef
+                .child(groupID)
+                .child("messages")
+                .child(messageID)
+                .setValue(new ChatMessage(message, currentUser.getDisplayName()));
         editTxt.getText().clear();
     }
 
@@ -80,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
         return new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-
                 ChatMessage message = dataSnapshot.getValue(ChatMessage.class);
                 messages.add(message);
                 chatMessagesViewAdapter.notifyDataSetChanged();
@@ -105,7 +128,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goToChat(View view) {
+
         startActivity(new Intent(this, ChatUserListActivity.class));
+
+    }
+
+    public void listGroups(View view) {
+
+        startActivity(new Intent(this, ChatGroupListActivity.class));
 
     }
 }

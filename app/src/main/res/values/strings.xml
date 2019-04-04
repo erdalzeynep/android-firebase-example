@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">E-Fika</string>
-    <string name="title_activity_chat_user_list">ChatUserListActivity</string>
+    <string name="title_activity_chat_user_list">User List</string>
+    <string name="title_activity_chat_group_list">Group List</string>
 </resources>
