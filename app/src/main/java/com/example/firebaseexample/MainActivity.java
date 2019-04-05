@@ -4,10 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.firebaseexample.adapter.ChatMessageAdapter;
 import com.google.firebase.FirebaseApp;
@@ -23,6 +30,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
+
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
     private FirebaseUser currentUser;
@@ -30,6 +38,12 @@ public class MainActivity extends AppCompatActivity {
     private EditText editTxt;
     private ChatMessageAdapter chatMessagesViewAdapter;
     private ArrayList<ChatMessage> messages = new ArrayList<>();
+
+    Toolbar toolbar;
+
+    private DrawerLayout drawerLayout;
+
+    NavigationView navigationView;
 
 
     @Override
@@ -40,7 +54,43 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
 
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         setContentView(R.layout.activity_main);
+
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+                switch (menuItem.getItemId()) {
+                    case R.id.nav_myAccount:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MyAccountFragment()).commit();
+                        break;
+
+                    case R.id.nav_setting:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SettingsFragment()).commit();
+                        break;
+                    case R.id.nav_signout:
+                        mAuth.signOut();
+                        finish();
+                        startActivity(getIntent());
+                }
+                drawerLayout.closeDrawer(GravityCompat.START);
+                return true;
+            }
+        });
+
+        //ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, R.drawable.ic_launcher_foreground,
+         //       R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        //drawerLayout.addDrawerListener(toggle);
+        //toggle.syncState();
+
+
 
         editTxt = findViewById(R.id.message_input);
         ListView listView = findViewById(R.id.message_list);
@@ -52,6 +102,38 @@ public class MainActivity extends AppCompatActivity {
 
         database.getReference().addChildEventListener(getChatMessageListener());
     }
+
+
+   /* @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+
+        switch (item.getItemId()){
+            case R.id.nav_myAccount:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new MyAccountFragment()).commit();
+                break;
+
+            case R.id.nav_setting:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new SettingsFragment()).commit();
+                break;
+            case R.id.nav_signout:
+                mAuth.signOut();
+                finish();
+                startActivity(getIntent());
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }*/
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
 
     @Override
     protected void onStart() {
@@ -69,11 +151,11 @@ public class MainActivity extends AppCompatActivity {
         editTxt.getText().clear();
     }
 
-    public void signOut(View view) {
+    /*public void signOut(View view) {
         mAuth.signOut();
         finish();
         startActivity(getIntent());
-    }
+    }*/
 
     private ChildEventListener getChatMessageListener() {
         return new ChildEventListener() {
